@@ -3,9 +3,13 @@ import dotenv from "dotenv";
 import colors from "colors";
 import connectDB from "./src/config/db.js";
 import productRoutes from "./src/routes/productRoutes.js";
+import userRoutes from "./src/routes/userRoutes.js";
 import { notFound, errorHandler } from "./src/middlewares/errorMiddleware.js";
 
 const app = express();
+
+app.use(express.json());
+
 dotenv.config();
 
 connectDB();
@@ -15,6 +19,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/products", productRoutes);
+
+app.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 

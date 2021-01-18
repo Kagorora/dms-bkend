@@ -66,9 +66,9 @@ const userSignUp = asyncHandler(async (req, res) => {
 
   if (user) {
     res.status(201).json({
+      _id: user._id,
       name: user.name,
       phoneNumber: user.phoneNumber,
-      password: user.password,
       email: user.email,
       nationalId: user.nationalId,
       userType: user.userType,

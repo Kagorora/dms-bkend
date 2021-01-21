@@ -73,6 +73,7 @@ const userSignUp = asyncHandler(async (req, res) => {
       nationalId: user.nationalId,
       userType: user.userType,
       location: user.location,
+      token: tokenGenerator(user._id),
     });
   } else {
     res.status(400);

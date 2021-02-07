@@ -4,6 +4,7 @@ import colors from "colors";
 import connectDB from "./src/config/db.js";
 import productRoutes from "./src/routes/productRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
+import orderRoutes from "./src/routes/orderRoutes";
 import { notFound, errorHandler } from "./src/middlewares/errorMiddleware.js";
 
 const app = express();
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 
 app.use("/api/users", userRoutes);
+
+app.use("/api/order", orderRoutes);
 
 const PORT = process.env.PORT || 5000;
 

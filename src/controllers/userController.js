@@ -126,4 +126,66 @@ const getAllUsers = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getProfile, userSignUp, updateProfile, getAllUsers };
+const removeUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    await User.remove(user);
+    res.json("user deleted");
+  } else {
+    res.status(404);
+    throw new Error("No result found!");
+  }
+});
+
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select("-password");
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error("No result found!");
+  }
+});
+
+const updateUsersProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+    user.password = user.password;
+    user.email = req.body.email || user.email;
+    user.nationalId = req.body.nationalId || user.nationalId;
+    user.userType = req.body.userType || user.userType;
+    user.location = req.body.location || user.location;
+    (user.phoneNumber = req.body.phoneNumber || user.phoneNumber),
+      (user.nationalId = req.body.nationalId || user.nationalId);
+
+    const updateUser = await user.save();
+
+    res.json({
+      _id: updateUser._id,
+      name: updateUser.name,
+      phoneNumber: updateUser.phoneNumber,
+      email: updateUser.email,
+      nationalId: updateUser.nationalId,
+      userType: updateUser.userType,
+      location: updateUser.location,
+      phoneNumber: updateUser.phoneNumber,
+      nationalId: updateUser.nationalId,
+    });
+  } else {
+    res.status(404);
+    throw new Error("No result found!");
+  }
+});
+
+export {
+  authUser,
+  getProfile,
+  userSignUp,
+  updateProfile,
+  getAllUsers,
+  removeUser,
+  getUserById,
+  updateUsersProfile,
+};

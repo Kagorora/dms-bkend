@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import morgan from "morgan";
 import colors from "colors";
 import connectDB from "./src/config/db.js";
 import productRoutes from "./src/routes/productRoutes.js";
@@ -10,6 +11,8 @@ import { notFound, errorHandler } from "./src/middlewares/errorMiddleware.js";
 const app = express();
 
 app.use(express.json());
+
+app.use(morgan("dev"));
 
 dotenv.config();
 

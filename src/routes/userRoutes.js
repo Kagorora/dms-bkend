@@ -6,6 +6,8 @@ import {
   updateProfile,
   getAllUsers,
   removeUser,
+  getUserById,
+  updateUsersProfile,
 } from "../controllers/userController.js";
 import { protect, isAdmin } from "../middlewares/authMiddleware.js";
 
@@ -15,6 +17,10 @@ routes.route("/").get(protect, isAdmin, getAllUsers);
 routes.post("/signup", userSignUp);
 routes.post("/login", authUser);
 routes.route("/profile").get(protect, getProfile).put(protect, updateProfile);
-routes.route("/:id").delete(protect, isAdmin, removeUser);
+routes
+  .route("/:id")
+  .delete(protect, isAdmin, removeUser)
+  .get(protect, isAdmin, getUserById)
+  .put(protect, isAdmin, updateUsersProfile);
 
 export default routes;

@@ -5,8 +5,13 @@ import {
   updateOrderToPaid,
   getMyOrders,
   getAllOrders,
+  updateOrderToDelivered,
 } from "../controllers/orderController.js";
-import { isAdmin, protect } from "../middlewares/authMiddleware.js";
+import {
+  isAdmin,
+  protect,
+  isSellerOrIsAdmin,
+} from "../middlewares/authMiddleware.js";
 
 const routes = express.Router();
 
@@ -17,5 +22,8 @@ routes
 routes.route("/myorders").get(protect, getMyOrders);
 routes.route("/:id").get(protect, getOrderById);
 routes.route("/:id/pay").put(protect, updateOrderToPaid);
+routes
+  .route("/:id/deliver")
+  .put(protect, isSellerOrIsAdmin, updateOrderToDelivered);
 
 export default routes;

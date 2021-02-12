@@ -26,4 +26,14 @@ const isAdmin = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { protect, isAdmin };
+const isSellerOrIsAdmin = asyncHandler(async (req, res, next) => {
+  let token;
+  if ((req.user && req.user.userType === "admin") || "seller") {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not allowed");
+  }
+});
+
+export { protect, isAdmin, isSellerOrIsAdmin };

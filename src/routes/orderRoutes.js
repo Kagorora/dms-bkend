@@ -22,8 +22,6 @@ routes
 routes.route("/myorders").get(protect, getMyOrders);
 routes.route("/:id").get(protect, getOrderById);
 routes.route("/:id/pay").put(protect, updateOrderToPaid);
-routes
-  .route("/:id/deliver")
-  .put(protect, isSellerOrIsAdmin, updateOrderToDelivered);
+routes.route("/:id/deliver").put(protect, isAdmin, updateOrderToDelivered);
 
 export default routes;

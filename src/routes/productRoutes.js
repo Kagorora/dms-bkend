@@ -3,13 +3,25 @@ import {
   getProducts,
   getProductById,
   removeProduct,
+  createProduct,
+  updateProduct,
 } from "../controllers/productController.js";
-import { protect, isAdmin } from "../middlewares/authMiddleware.js";
+import {
+  protect,
+  isAdmin,
+  isSellerOrIsAdmin,
+} from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").get(getProducts);
+router
+  .route("/")
+  .get(getProducts)
+  .post(protect, isSellerOrIsAdmin, createProduct);
 router.route("/:id").get(getProductById);
-router.route("/:id").delete(protect, isAdmin, removeProduct);
+router
+  .route("/:id")
+  .delete(protect, isAdmin, removeProduct)
+  .put(protect, isSellerOrIsAdmin, updateProduct);
 
 export default router;

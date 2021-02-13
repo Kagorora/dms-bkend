@@ -5,6 +5,7 @@ import {
   removeProduct,
   createProduct,
   updateProduct,
+  createProductReview,
 } from "../controllers/productController.js";
 import {
   protect,
@@ -14,14 +15,17 @@ import {
 
 const router = express.Router();
 
+router.route("/:id/review").post(protect, createProductReview);
+
+router
+  .route("/:id")
+  .delete(protect, isAdmin, removeProduct)
+  .put(protect, isSellerOrIsAdmin, updateProduct);
+
 router
   .route("/")
   .get(getProducts)
   .post(protect, isSellerOrIsAdmin, createProduct);
 router.route("/:id").get(getProductById);
-router
-  .route("/:id")
-  .delete(protect, isAdmin, removeProduct)
-  .put(protect, isSellerOrIsAdmin, updateProduct);
 
 export default router;

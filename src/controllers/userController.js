@@ -75,11 +75,10 @@ const userSignUp = asyncHandler(async (req, res) => {
   const {
     name,
     phoneNumber,
-    password,
-    email,
     nationalId,
+    email,
     userType,
-    location,
+    password
   } = req.body;
 
   const userExists = await User.findOne({ email });
@@ -92,11 +91,10 @@ const userSignUp = asyncHandler(async (req, res) => {
   const user = await User.create({
     name,
     phoneNumber,
-    password,
-    email,
     nationalId,
+    email,
     userType,
-    location,
+    password
   });
 
   if (user) {
@@ -104,10 +102,9 @@ const userSignUp = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       phoneNumber: user.phoneNumber,
-      email: user.email,
       nationalId: user.nationalId,
+      email: user.email,
       userType: user.userType,
-      location: user.location,
       token: tokenGenerator(user._id),
     });
   } else {

@@ -32,7 +32,6 @@ const userSchema = mongoose.Schema(
     },
     location: {
       type: String,
-      required: true,
     },
   },
   {

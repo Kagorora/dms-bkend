@@ -3,6 +3,7 @@ import path from "path";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import colors from "colors";
+import cors from 'cors';
 import connectDB from "./src/config/db.js";
 import productRoutes from "./src/routes/productRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
@@ -11,6 +12,8 @@ import uploadRoutes from "./src/routes/uploadRoutes.js";
 import { notFound, errorHandler } from "./src/middlewares/errorMiddleware.js";
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 

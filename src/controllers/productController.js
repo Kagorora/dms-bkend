@@ -1,5 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Product from "../../database/models/productModel.js";
+import dotenv from 'dotenv';
+import cloudinary from 'cloudinary';
 
 // @desc     Fetch all Products
 // @route    Get /api/products
@@ -86,6 +88,7 @@ const createProduct = asyncHandler(async (req, res) => {
 // @access private Admin, Seller
 
 const updateProduct = asyncHandler(async (req, res) => {
+
   const {
     name,
     price,

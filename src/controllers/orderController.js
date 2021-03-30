@@ -115,6 +115,34 @@ const getAllOrders = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc     GET  All Orders by timeframe 
+// @route    GET admin/api/orders/timeframe/:from/:to 
+// @access   Private Admin  
+
+const getOrdersByTimeframe = asyncHandler(async (req, res) => {
+ 
+
+  console.log('$$$$$$$$', req.params.fromDate);
+
+  console.log('$$$$$$$$', req.params.toDate);
+
+  const order = await Order.find({
+    createdAt: {
+      $gte: req.params.fromDate,
+      $lt: req.params.toDate
+    }
+  }).populate("user", "user._id name");
+
+  console.log('$$$$$$$$', order);
+
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("No Order found");
+  }
+});
+
 export {
   addOrderItem,
   getOrderById,
@@ -122,4 +150,5 @@ export {
   getMyOrders,
   getAllOrders,
   updateOrderToDelivered,
+  getOrdersByTimeframe
 };

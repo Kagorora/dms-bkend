@@ -30,7 +30,22 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    location: {
+    province: {
+      type: String,
+    },
+    district: {
+      type: String,
+    },
+    sector: {
+      type: String,
+    },
+    cell: {
+      type: String,
+    },
+    village: {
+      type: String,
+    },
+    streetNumber: {
       type: String,
     },
   },

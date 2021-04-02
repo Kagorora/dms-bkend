@@ -96,6 +96,11 @@ const orderSchema = mongoose.Schema(
     deliveredAt: {
       type: Date,
     },
+    isLoan: {
+      type: Boolean,
+      required: true,
+      default: false
+    }
   },
   {
     timestamps: true,

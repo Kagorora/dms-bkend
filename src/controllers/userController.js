@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../../database/models/userModel.js";
 import tokenGenerator from "../utils/tokenGenerator.js";
+import { isNationalId, isPhoneNumber } from "rwa-validator";
 
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -11,7 +12,6 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       userType: user.userType,
       email: user.email,
-      location: user.location,
       token: tokenGenerator(user._id),
     });
   } else {
@@ -22,15 +22,21 @@ const authUser = asyncHandler(async (req, res) => {
 
 const getProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
+
   if (user) {
     res.json({
       _id: user._id,
       name: user.name,
       userType: user.userType,
       email: user.email,
-      address: user.location,
       phoneNumber: user.phoneNumber,
       nationalId: user.nationalId,
+      province: user.province ,
+      district: user.district ,
+      sector: user.sector ,
+      cell: user.cell ,
+      village: user.village ,
+      streetNumber: user.streetNumber
     });
   } else {
     res.status(404);
@@ -49,9 +55,14 @@ const updateProfile = asyncHandler(async (req, res) => {
     user.email = req.body.email || user.email;
     user.nationalId = req.body.nationalId || user.nationalId;
     user.userType = req.body.userType || user.userType;
-    user.location = req.body.location || user.location;
     (user.phoneNumber = req.body.phoneNumber || user.phoneNumber),
-      (user.nationalId = req.body.nationalId || user.nationalId);
+    (user.nationalId = req.body.nationalId || user.nationalId);
+    user.province = req.body.province || user.province ,
+    user.district = req.body.district || user.district ,
+    user.sector = req.body.sector || user.sector ,
+    user.cell = req.body.cell || user.cell ,
+    user.village = req.body.village || user.village ,
+    user.streetNumber = req.body.streetNumber || user.streetNumber
 
     const updateUser = await user.save();
 
@@ -60,9 +71,14 @@ const updateProfile = asyncHandler(async (req, res) => {
       name: updateUser.name,
       userType: updateUser.userType,
       email: updateUser.email,
-      location: updateUser.location,
       phoneNumber: updateUser.phoneNumber,
       nationalId: updateUser.nationalId,
+      province: updateUser.province ,
+      district: updateUser.district ,
+      sector: updateUser.sector ,
+      cell: updateUser.cell ,
+      village: updateUser.village ,
+      streetNumber: updateUser.streetNumber,
       token: tokenGenerator(updateUser._id),
     });
   } else {
@@ -86,6 +102,16 @@ const userSignUp = asyncHandler(async (req, res) => {
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
+  }
+
+  if(isPhoneNumber(`${phoneNumber}`) == false){
+    res.status(400);
+    throw new Error("Invalid Phone Number!");
+  }
+
+  if(isNationalId(`${nationalId}`) == false){
+    res.status(400);
+    throw new Error("Invalid National Id!");
   }
 
   const user = await User.create({
@@ -153,9 +179,8 @@ const updateUsersProfile = asyncHandler(async (req, res) => {
     user.email = req.body.email || user.email;
     user.nationalId = req.body.nationalId || user.nationalId;
     user.userType = req.body.userType || user.userType;
-    user.location = req.body.location || user.location;
     (user.phoneNumber = req.body.phoneNumber || user.phoneNumber),
-      (user.nationalId = req.body.nationalId || user.nationalId);
+    (user.nationalId = req.body.nationalId || user.nationalId);
 
     const updateUser = await user.save();
 
@@ -166,7 +191,6 @@ const updateUsersProfile = asyncHandler(async (req, res) => {
       email: updateUser.email,
       nationalId: updateUser.nationalId,
       userType: updateUser.userType,
-      location: updateUser.location,
       phoneNumber: updateUser.phoneNumber,
       nationalId: updateUser.nationalId,
     });

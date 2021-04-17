@@ -143,6 +143,16 @@ const getOrdersByTimeframe = asyncHandler(async (req, res) => {
   }
 });
 
+const sortOrdersByPaymentMethod = asyncHandler(async (req, res) => {
+  const order = await Order.find({ paymentMethod: req.params.paymentMethod });
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("No Order found");
+  }
+});
+
 export {
   addOrderItem,
   getOrderById,
@@ -150,5 +160,6 @@ export {
   getMyOrders,
   getAllOrders,
   updateOrderToDelivered,
-  getOrdersByTimeframe
+  getOrdersByTimeframe,
+  sortOrdersByPaymentMethod
 };

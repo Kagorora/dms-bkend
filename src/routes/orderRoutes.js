@@ -6,7 +6,8 @@ import {
   getMyOrders,
   getAllOrders,
   updateOrderToDelivered,
-  getOrdersByTimeframe
+  getOrdersByTimeframe,
+  sortOrdersByPaymentMethod
 } from "../controllers/orderController.js";
 import {
   isAdmin,
@@ -25,5 +26,6 @@ routes.route("/:id").get(protect, getOrderById);
 routes.route("/timeframe/:fromDate/:toDate").get(protect, isAdmin, getOrdersByTimeframe);
 routes.route("/:id/pay").put(protect, updateOrderToPaid);
 routes.route("/:id/deliver").put(protect, isAdmin, updateOrderToDelivered);
+routes.route("/sortOrdersByPaymentMethod/:paymentMethod").get(protect, isAdmin, sortOrdersByPaymentMethod);
 
 export default routes;

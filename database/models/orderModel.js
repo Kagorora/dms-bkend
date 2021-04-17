@@ -100,6 +100,11 @@ const orderSchema = mongoose.Schema(
       type: Boolean,
       required: true,
       default: false
+    },
+    isLoanApproved: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   },
   {

@@ -153,6 +153,26 @@ const sortOrdersByPaymentMethod = asyncHandler(async (req, res) => {
   }
 });
 
+const sortOrdersByNonPaid = asyncHandler(async (req, res) => {
+  const order = await Order.find({ isPaid: req.params.isPaid });
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("No Order found");
+  }
+});
+
+const sortOrdersByProvince = asyncHandler(async (req, res) => {
+  const order = await Order.find({ "orderAddress.Province": req.params.Province });
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("No Order found");
+  }
+});
+
 export {
   addOrderItem,
   getOrderById,
@@ -161,5 +181,7 @@ export {
   getAllOrders,
   updateOrderToDelivered,
   getOrdersByTimeframe,
-  sortOrdersByPaymentMethod
+  sortOrdersByPaymentMethod,
+  sortOrdersByNonPaid,
+  sortOrdersByProvince
 };
